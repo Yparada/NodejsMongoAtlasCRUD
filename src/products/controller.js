@@ -44,7 +44,24 @@ module.exports.ProductsController = {
         }
     },
 
-    //update
+    updateProduct: async (req, res) => {
+        try {
+            const { params: { id } } = req;
+            const { body } = req;
+            let product = await ProductsService.update(id, body);
+            
+            if(!product){
+                Response.error(res, new createError.NotFound());
+            }else{
+                Response.success(res, 200, `Producto ${id} modificado`, Object(body));
+            }
+            
+
+        } catch (error) {
+            debug(error);
+            Response.error(res);
+        }
+    },
 
     deleteProduct: async (req, res, id) =>{
         try {

@@ -22,7 +22,12 @@ const create = async (product) => {
     return result.insertedId;
 }
 
-//update
+const update = async (id,product) =>{
+    const collection = await Database(COLLECTION);
+    const options = { upsert: true }
+    let result = await collection.updateOne({_id:ObjectId(id)}, { $set: { ...product } }, options)
+    return result;
+}
 
 const deletee = async(id) =>{
     const collection = await Database(COLLECTION);
@@ -40,6 +45,7 @@ module.exports.ProductsService = {
     getById,
     create,
     generateReport,
-    deletee
+    deletee,
+    update
 
 }
